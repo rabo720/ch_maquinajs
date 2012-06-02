@@ -6,6 +6,7 @@ var Trato_Lineas = function()
 {	
 	vec_variable=[];
 	vec_etiquetas=[];
+
 	this.set_etiquetas=
 			function()
 			{
@@ -29,24 +30,20 @@ var Trato_Lineas = function()
 				variable=str(variable)
 				return variable
 			}
-		};
-		
+		};		
 	this.agregar_variable=
 		function(linea)
 		{
 			x=[linea[1],linea[3]];
 			vec_variable.push(x);
 		};
-	
-	
 	this.agregar_etiqueta=
 		function(linea,tam_mem)
 		{
 			var y = parseInt(linea[2])+(tam_mem-1);
 			x=[linea[1],y];
 			vec_etiquetas.push(x);
-		};
-		
+		};	
 	this.buscar_variables =
 		function(vec,variable)
 		{
@@ -60,7 +57,6 @@ var Trato_Lineas = function()
 			}
 			return false;
 		};
-	
 	this.buscar_lista=
 		function(variable, lista)
 		{
@@ -76,8 +72,7 @@ var Trato_Lineas = function()
 				x++;
 			}
 			return false;
-		};
-		
+		};	
 	this.resivir_linea=
 		function(lineas,tam_mem)
 		{
@@ -220,11 +215,17 @@ var Trato_Lineas = function()
 					}	
 				}
 				x=0;
+				var rafaga = 0; //se contara el valor rafagas.
 				for(x; x < lineas.length-1;x++)
 				{
 					var aux_c = lineas[x][0]+lineas[x][1];
 					var linea= lineas[x].split(" ");
 					var Num_parametros= linea.length;
+					if (linea[0]!="etiqueta" && linea[0]!="nueva")
+					{
+						rafaga = rafaga+1;
+					}	
+
 					if(linea[0]!= "etiqueta" && aux_c!= "//")
 					{
 						if (this.buscar_lista(linea[0],this.lista_basicas))
@@ -251,7 +252,7 @@ var Trato_Lineas = function()
 						}
 					}
 				}
-				return [true,vec_variable,vec_etiquetas];
+				return [true,vec_variable,vec_etiquetas,rafaga];
 			}
 			else
 			{
@@ -260,8 +261,7 @@ var Trato_Lineas = function()
 			}	
 			
 		
-		};
-		
+		};	
 	this.lista_basicas=
 		[  "cargue",
            "almacene",
@@ -275,27 +275,25 @@ var Trato_Lineas = function()
            "concatene",
            "elimine",
            "extraiga",
-        ];
-        
-	this.lista_compleja=
-    [	   
+        ];  
+	this.lista_compleja= 
+	[	   
 		"vaya","vayasi","nueva","etiqueta","retorne","muestre", "imprima"
-	];
-	
-	
+	];	
 };
 
 var Depurador = function()
 {
 	this.vec_variables=[];
 	this.vec_etiquetas=[];
-	
 	this.depurar_linea = 
 		function(lineas,tam_mem)
 		{
 			var revisar = new Trato_Lineas();
+			var rafaga = 0;
 			var x=0;
-			return rev_linea=revisar.resivir_linea(lineas,tam_mem);
+			rev_linea=revisar.resivir_linea(lineas,tam_mem);
+			return rev_linea;
 					
 		};
 };
@@ -305,6 +303,7 @@ var Memoria=function()
 	this.memoria = new Array();
 	this.memoria.push(0);
 	this.tam_memoria = 200;
+
 	this.iniciar_memoria = 
 		function(tam)
 		{
@@ -313,32 +312,27 @@ var Memoria=function()
 			{
 				this.memoria.push("Sistema_Operativo");
 			}
-		};
-		
+		};	
 	this.set_tam_mem =
 		function()
 		{
 			return this.tam_memoria;
 		};
-	
 	this.set_mem_ocupado =
 		function()
 		{
 			return this.memoria.length;
-		};
-		
+		};	
 	this.set_acumulador = 
 		function()
 		{
 			return this.memoria[0];
-		};
-		
+		};	
 	this.return_memoria =
 		function(dir)
 		{
 			return this.memoria[dir];
-		};
-		
+		};	
 	this.insertarCHPrograma= 
 		function(lineas,vec_variables)
 		{
@@ -360,14 +354,12 @@ var Memoria=function()
 			}
 			var posFinPro = this.memoria.length-1;
 			return [posIni, posFin, posFinPro,vec_variables];
-		};
-		
+		};	
 	this.set_variable =
 		function(valor)
 		{
 			return this.memoria[valor];
 		};
-	
 	this.cambiar_memoria = 
 		function()
 		{
@@ -385,38 +377,32 @@ var Memoria=function()
 					bandera = false;
 				}
 			}
-		};
-		
+		};	
 	this.set_memoria =
 		function()
 		{
 			return this.memoria;
-		};
-			
+		};		
 	this.intercambio = 
 		function(dir_pri, dir_seg)
 		{
 			this.memoria[dir_pri]=this.memoria[dir_seg];
-		};
-		
+		};	
 	this.refrescar = 
 		function(contenido,dir)
 		{
 			this.memoria[dir] = contenido;
-		};
-		
+		};	
 	this.insertar =
 		function(dir,valor)
 		{
 			this.memoria[dir]=valor;
-		};
-		
+		};	
 	this.suma =
 		function(dir)
 		{
 			this.memoria[0]+=this.memoria[dir];
-		};
-			
+		};		
 	this.resta =
 		function(dir)
 		{
@@ -482,22 +468,35 @@ var CHMaquina = function()
     this.listaProcesos = {};
     this.variables=[];
     this.etiquetas=[];
+   /*
+   		Explicacion Directorio.
+   		this.directorio[0]: lugar donde inicia en la memoria.
+   		this.directorio[1]: lugar donde temrina sin variables.
+   		this.directorio[2]: lugar donde termina con variables.
+   		this.directorio[3]: lugar hasta donde se ha ejecutado el programada.
+   		this.directorio[4]: rafaga del programa (tamaño).
+   		this.directorio[5]: tiempo de llegada.
+   		this.directorio[6]: bandera terminado y no.
+   		this.directorio[7]: acumulador.
+   */
     this.directorio=[];
-    var depurador = new Depurador();
-    var memoriaCH = new Memoria(); 
     this.pantallach =[];
     this.procesoch =[];
     this.x_global = 0;
 	this.y_global = 50;
 	this.tiempo_llegada = 0;
 	this.tipo_ejecucion;
+	this.cuantum = 5;
+	this.bandera = 0;
+
+	var depurador = new Depurador();
+    var memoriaCH = new Memoria(); 
 
 	this.getEjecucion = 
 		function(tipo)
 		{
 			this.tipo_ejecucion = tipo;
 		}
-    
     this.iniciar_chmaquina = 
 		function()
 		{
@@ -525,7 +524,6 @@ var CHMaquina = function()
 				}
 			}
 		};
-	
 	this.buscar_etiqueta =
 		function(variable,ID_proceso)
 		{
@@ -542,13 +540,11 @@ var CHMaquina = function()
 				}
 			}
 		};
-		
     this.setMemoria = 
 		function()
 		{
 			return memoriaCH.memoria;
-		};
-   
+		};   
     this.setDirectorio = 
 		function(ID_pro)
 		{
@@ -610,6 +606,7 @@ var CHMaquina = function()
 		function(programa,ID_proceso) 
 		{		
 			var lineas = programa.split("\n");
+			var acumulador = 0;
 			lineas = this.trato_lineas(lineas);
 			var rev_cod = depurador.depurar_linea(lineas,memoriaCH.set_memoria().length)
 			var direc=[];
@@ -617,10 +614,11 @@ var CHMaquina = function()
 			{
 				if(rev_cod[0])
 				{
+					this.tiempo_llegada = this.tiempo_llegada + (lineas.length/4);
 					this.insertar_etiqueta(rev_cod[2],ID_proceso);
 					direc=memoriaCH.insertarCHPrograma(lineas,rev_cod[1]);
 					this.insertar_variables(direc[3],ID_proceso);
-					this.directorio.push([direc[0],direc[1],direc[2]]);
+					this.directorio.push([direc[0],direc[1],direc[2],direc[0],rev_cod[3],this.tiempo_llegada,this.bandera,acumulador]);
 					return true;
 				}
 			}
@@ -765,9 +763,10 @@ var CHMaquina = function()
 			//por hacer con jquery
 		};
 	this.retorne = 
-		function()
+		function(x)
 		{
-			
+			alert("aqui");
+			this.directorio[x][6] = 1;
 		};
 	this.vaya = 
 		function(variable,ID_proceso)
@@ -782,7 +781,6 @@ var CHMaquina = function()
 			else if (acum < 0)
 				return this.buscar_etiqueta(variable2,ID_proceso);
 		};
-	
 	this.terminal =
 		function(ID_proceso)
 		{
@@ -798,7 +796,6 @@ var CHMaquina = function()
 			var new_element = $("<textarea class='platilla_terminal'>"+text_pantalla+"</textarea>");
 			new_element.insertAfter($("#terminal .text"));
 		};
-	
 	this.terminal_paso =
 		function(ID_proceso,contenido, acumulador, PC)
 		{
@@ -814,7 +811,6 @@ var CHMaquina = function()
 			var new_element = $("<textarea class='platilla_terminal'>"+text_pantalla+"</textarea>");
 			new_element.insertAfter($("#terminal .text"));
 		};
-	
 	this.reset_terminal = 
 		function()
 		{
@@ -835,72 +831,136 @@ var CHMaquina = function()
 		function(y,x)
 		{
 			contenido = memoriaCH.return_memoria(y);
-					contenido = contenido.split(" ");
-					switch(contenido[0])
+			contenido = contenido.split(" ");
+			switch(contenido[0])
+			{
+				case "nueva":
+					this.nueva(contenido[1],contenido[3],x);
+				break;
+				case "cargue": 
+					this.cargue(contenido[1],x);
+				break;
+				case "almacene":
+					this.almacene(contenido[1],x);
+				break;
+				case "vaya":
+					y=(this.vaya(contenido[1],x))-1;
+				break;
+				case "vayasi":
+					var acum = memoriaCH.set_acumulador();
+					if (acum != 0)
 					{
-						case "nueva":
-							this.nueva(contenido[1],contenido[3],x);
-						break;
-						case "cargue": 
-							this.cargue(contenido[1],x);
-						break;
-						case "almacene":
-							this.almacene(contenido[1],x);
-						break;
-						case "vaya":
-							y=(this.vaya(contenido[1],x))-1;
-						break;
-						case "vayasi":
-							var acum = memoriaCH.set_acumulador();
-							if (acum != 0)
-							{
-								y=(this.vayasi(contenido[1],contenido[2],acum,x))-1;
-							}
-						break;
-						case "lea":
-							this.lea(contenido[1],x);
-						break;
-						case "sume":
-							this.sume(contenido[1],x);
-						break;
-						case "reste":
-							this.reste(contenido[1],x);
-						break;
-						case "multiplique":
-							this.multiplique(contenido[1],x);
-						break;
-						case "divida":
-							var aux_div=this.divida(contenido[1],x);
-							if(aux_div != -1)
-							{
-								y = aux_div;
-							}
-						break;
-						case "potencia":
-							this.potencia(contenido[1],x);
-						break;
-						case "modulo":
-							this.modulo(contenido[1],x);
-						break;
-						case "concatene":
-							this.concatene(contenido[1],x);
-						break;
-						case "extraiga":
-							this.extraiga(contenido[1],x);
-						break;
-						case "muestre":
-							this.muestre(contenido[1],x);
-						break;
-						case "imprima":
-							this.imprima(contenido[1],x);
-						break;
-						case "retorne":
-							this.retorne(contenido[1],x);
-						break;						
+						y=(this.vayasi(contenido[1],contenido[2],acum,x))-1;
 					}
+				break;
+				case "lea":
+					this.lea(contenido[1],x);
+				break;
+				case "sume":
+					this.sume(contenido[1],x);
+				break;
+				case "reste":
+					this.reste(contenido[1],x);
+				break;
+				case "multiplique":
+					this.multiplique(contenido[1],x);
+				break;
+				case "divida":
+					var aux_div=this.divida(contenido[1],x);
+					if(aux_div != -1)
+					{
+						y = aux_div;
+					}
+				break;
+				case "potencia":
+					this.potencia(contenido[1],x);
+				break;
+				case "modulo":
+					this.modulo(contenido[1],x);
+				break;
+				case "concatene":
+					this.concatene(contenido[1],x);
+				break;
+				case "extraiga":
+					this.extraiga(contenido[1],x);
+				break;
+				case "muestre":
+					this.muestre(contenido[1],x);
+				break;
+				case "imprima":
+					this.imprima(contenido[1],x);
+				break;
+				case "retorne":
+					this.retorne(x);
+					alert(this.directorio[x][6]);
+					return this.directorio[x][1];
+				break;						
+			}
 				return y;
 		};
 	
+//TIPOS DE EJECUCION.
+
+	this.calcularProEmpezados = 
+	function()
+	{
+		var empezados = 0;
+		for (x = 0; x <this.directorio.length; x++)
+		{
+			if (this.directorio[x][6] == 0)
+			{
+				empezados = empezados+1;
+			}	
+		}
+		return empezados;
+	}
+	this.ejecutarRR = 
+	function()
+	{
+		var x = this.x_global;
+		var y;
+		var i;
+
+		while (this.calcularProEmpezados()>0)
+		{
+			this.terminal(x);
+			y = this.directorio[x][3];
+			i = 0;
+			memoriaCH.insertar(0,this.directorio[x][7]);
+			while(i<=this.cuantum)
+			{
+				y = this.ejecutar_linea(y,x);
+				i=i+1;
+				y =y+1;	
+				if (y == this.directorio[x][1])
+				{
+					break;
+				}
+			}
+			this.directorio[x][7] = memoriaCH.set_acumulador();
+			this.directorio[x][3]=y;
+			x = x+1;
+			if (this.directorio.length == x)
+				x = this.x_global;
+			if (this.directorio[x][6]==1)
+			{
+				x = x+1;	
+			}
+		}
+		return 0;
+
+	};
+	this.ejecutarExp = 
+	function()
+	{
+
+	};
+	this.ejecutarNoExp = 
+	function ()
+	{
+
+	};
+
 	this.ejecutar_programas_normal=
 		function()
 		{
@@ -921,8 +981,6 @@ var CHMaquina = function()
 			this.y_global = 50;
 			return 0;
 		};
-	
-	
 	this.ejecutar_programas_paso_paso =
 		function()
 		{
@@ -961,8 +1019,7 @@ var CHMaquina = function()
 				}
 				return 0;
 			}
-		};
-	
+		};	
  };
  
 
