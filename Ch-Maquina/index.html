@@ -129,30 +129,30 @@
 		</div>
         <script>
 			function toStringCriollo(vec,ID_pro)
-			{
-				var x=0;
-				var contenido="";
-				for(x; x < vec.length;x++)
 				{
-						
-						if(vec[x][0]==ID_pro)
-						{
-							contenido+=vec[x][1]+"\t"+ vec[x][2]+ "\n";
-						}
-						
+					var x=0;
+					var contenido="";
+					for(x; x < vec.length;x++)
+					{
+							
+							if(vec[x][0]==ID_pro)
+							{
+								contenido+=vec[x][1]+"\t"+ vec[x][2]+ "\n";
+							}
+							
+					}
+					return contenido;
 				}
-				return contenido;
-			}
 			function toStringCriollo1(vec,ID_pro,ini,fin)
-			{
-				var x=ini;
-				var contenido="";
-				for(x; x <=fin;x++)
-				{						
-						contenido+=vec[x]+"\n";	
-				}
-				return contenido;	
-			}		
+				{
+					var x=ini;
+					var contenido="";
+					for(x; x <=fin;x++)
+					{						
+							contenido+=vec[x]+"\n";	
+					}
+					return contenido;	
+				}		
 			$(document).ready
 			(
 			function()
@@ -163,114 +163,113 @@
 				var content;
 				var restrictor = 0;
 				
-				var insertar_terminal =
-				function()
-				{
-					var new_element= $("<div class='element'>Salidas</div>");
-					$("#slider").prepend(new_element);
-				};
+				var insertar_terminal =function()
+					{
+						var new_element= $("<div class='element'>Salidas</div>");
+						$("#slider").prepend(new_element);
+					};
 				var manejarArchivos = function(archivo) 
-				{
-                    var reader = new FileReader();
-                    reader.onload = function(event) 
-                    {
-                        content = event.target.result;
-                        var mem_temp = $("<textarea class = 'textch'>"+content+"</textarea>");
-						mem_temp.insertAfter(".nulo"); 
-                    };
-                    reader.readAsText(archivo[0]);   
-				};
-				 var grafico_programa = function(ID_pro)
-				{
-					$("#programa #salidas").hide();
-					$("#chcodigo").show();
-					$("#etivari").show();
-					var new_element = $("<textarea class='contenedor'>"+ toStringCriollo(chmaquina.variables,ID_pro)+"</textarea>");
-					new_element.insertAfter($("#variables .barraEstado .text"));
-									
-					new_element = $("<textarea class='contenedor'>"+ toStringCriollo(chmaquina.etiquetas,ID_pro)+"</textarea>");
-					new_element.insertAfter($("#etiquetas .barraEstado .text"));
-					
-					var vec_aux = chmaquina.setDirectorio(ID_pro);	
-					new_element = $("<textarea id = 'chcodigo'>"+"\n\nch-Codigo\n\n"+toStringCriollo1(chmaquina.setMemoria(),ID_pro,vec_aux[0],vec_aux[1])+"</textarea>");
-					new_element.insertAfter("#programa .chcodigo");	
-				}
+					{
+	                    var reader = new FileReader();
+	                    reader.onload = function(event) 
+	                    {
+	                        content = event.target.result;
+	                        var mem_temp = $("<textarea class = 'textch'>"+content+"</textarea>");
+							mem_temp.insertAfter(".nulo"); 
+	                    };
+	                    reader.readAsText(archivo[0]);   
+					};
+				var grafico_programa = function(ID_pro)
+					{
+						$("#programa #salidas").hide();
+						$("#chcodigo").show();
+						$("#etivari").show();
+						var new_element = $("<textarea class='contenedor'>"+ toStringCriollo(chmaquina.variables,ID_pro)+"</textarea>");
+						new_element.insertAfter($("#variables .barraEstado .text"));
+										
+						new_element = $("<textarea class='contenedor'>"+ toStringCriollo(chmaquina.etiquetas,ID_pro)+"</textarea>");
+						new_element.insertAfter($("#etiquetas .barraEstado .text"));
+						
+						var vec_aux = chmaquina.setDirectorio(ID_pro);	
+						new_element = $("<textarea id = 'chcodigo'>"+"\n\nch-Codigo\n\n"+toStringCriollo1(chmaquina.setMemoria(),ID_pro,vec_aux[0],vec_aux[1])+"</textarea>");
+						new_element.insertAfter("#programa .chcodigo");	
+					};
 				var grafico_memoria = function()
-				{
-					var memoria = chmaquina.setMemoria();
-					var mem_temp;
-					var x = 0;	
-					$("#conjunto_memoria .super_medidor .tabla .tupla").remove();
-					mem_temp = $("<TR class ='tupla'><TD>memoria</TD><TD>ch-maquina</TD></TR>");
-					$("#conjunto_memoria .super_medidor .tabla").prepend(mem_temp);		
-					for(x;x <=(memoria.length)-1;x++)
 					{
-						mem_temp = $('<TR class = "tupla" ><TD>'+x+'</TD><TD>'+memoria[x].toString()+"</TD></TR>");
-						mem_temp.insertAfter("#conjunto_memoria .super_medidor .tabla .tupla:last-child");
+						var memoria = chmaquina.setMemoria();
+						var mem_temp;
+						var x = 0;	
+						$("#conjunto_memoria .super_medidor .tabla .tupla").remove();
+						mem_temp = $("<TR class ='tupla'><TD>memoria</TD><TD>ch-maquina</TD></TR>");
+						$("#conjunto_memoria .super_medidor .tabla").prepend(mem_temp);		
+						for(x;x <=(memoria.length)-1;x++)
+						{
+							mem_temp = $('<TR class = "tupla" ><TD>'+x+'</TD><TD>'+memoria[x].toString()+"</TD></TR>");
+							mem_temp.insertAfter("#conjunto_memoria .super_medidor .tabla .tupla:last-child");
+						}
 					}
-				}
 				var grafico_proceso = function()
-				{
-					var directorio = chmaquina.setToltalDirectorio();
-					var mem_temp;
-					var x = 0;	
-					$("#conjunto_procesos .tupla").remove();
-					mem_temp = $("<TR class ='tupla'><TD>ID</TD><TD>RB</TD><TD>RLC</TD><TD>RLP</TD><TD>'<-'</TD><TD>RAF</TD><TD>TLL</TD></TR>");
-					$("#conjunto_procesos .super_medidor .tabla").prepend(mem_temp);		
-					for(x;x <=(directorio.length)-1;x++)
 					{
-						mem_temp = $("<TR class ='tupla'><TD>"+x+"</TD><TD>"+directorio[x][0].toString()+"</TD><TD>"+directorio[x][1].toString()+"</TD><TD>"+directorio[x][2].toString()+"</TD><TD>"+directorio[x][3].toString()+"</TD><TD>"+directorio[x][4].toString()+"</TD><TD>"+directorio[x][5].toString()+"</TD></TR>");
-						mem_temp.insertAfter("#conjunto_procesos .super_medidor .tabla .tupla:last-child");
+						var directorio = chmaquina.setToltalDirectorio();
+						var mem_temp;
+						var x = 0;	
+						$("#conjunto_procesos .tupla").remove();
+						mem_temp = $("<TR class ='tupla'><TD>ID</TD><TD>RB</TD><TD>RLC</TD><TD>RLP</TD><TD>'<-'</TD><TD>RAF</TD><TD>TLL</TD></TR>");
+						$("#conjunto_procesos .super_medidor .tabla").prepend(mem_temp);		
+						for(x;x <=(directorio.length)-1;x++)
+						{
+							mem_temp = $("<TR class ='tupla'><TD>"+x+"</TD><TD>"+directorio[x][0].toString()+"</TD><TD>"+directorio[x][1].toString()+"</TD><TD>"+directorio[x][2].toString()+"</TD><TD>"+directorio[x][3].toString()+"</TD><TD>"+directorio[x][4].toString()+"</TD><TD>"+directorio[x][5].toString()+"</TD></TR>");
+							mem_temp.insertAfter("#conjunto_procesos .super_medidor .tabla .tupla:last-child");
+						}
 					}
-				}
 				var cambiar_modo = function()
-				{
-					$("#nombre").remove();
-					if(restrictor == 0)
 					{
-						var mem_temp = $('<div id = "nombre">CH-MAQUINA (Modo Kernel)</div>');
-						mem_temp.insertAfter("#cabeza");
-					}
-					else
-					{
-						var mem_temp = $('<div id = "nombre">CH-MAQUINA (Modo Usuario)</div>');
-						mem_temp.insertAfter("#cabeza");
-					}
-				};
+						$("#nombre").remove();
+						if(restrictor == 0)
+						{
+							var mem_temp = $('<div id = "nombre">CH-MAQUINA (Modo Kernel)</div>');
+							mem_temp.insertAfter("#cabeza");
+						}
+						else
+						{
+							var mem_temp = $('<div id = "nombre">CH-MAQUINA (Modo Usuario)</div>');
+							mem_temp.insertAfter("#cabeza");
+						}
+					};
 
                 chmaquina.iniciar_chmaquina();
                 grafico_memoria();
                 insertar_terminal();
                 
                 var insertar_grafico = function()
-				{	
-					var new_element= $("<div class='element'>"+ID_proceso+"</div>");
-					var aux;
-					var constante = 3.63;
-					new_element.insertAfter($("#slider .element:last-child"));
-					$("#alertFile").hide();
-					if (ID_proceso > 8)// manejo de .element para modificar el hancho con relacion a el slider.
-					{
-					aux= ((0.80/ID_proceso)*100);
-					if((ID_proceso%22)== 0)// agregar un nuevo nivel para nuevos chprogramas 
-					{
-						var niveles= (1+(ID_proceso/22))*35;
-						$("#general").css({"height": niveles.toString()+"px"});
-						bandera = 1;
-						$("#slider .element").css({"width": constante.toString()+"%"});
-							
-					}
-					else if(bandera == 0)//modificacion de hancho
-					{
-						$("#slider .element").css({"width": aux.toString()+"%"});
-					}
-						else
+					{	
+						var new_element= $("<div class='element'>"+ID_proceso+"</div>");
+						var aux;
+						var constante = 3.63;
+						new_element.insertAfter($("#slider .element:last-child"));
+						$("#alertFile").hide();
+						if (ID_proceso > 8)// manejo de .element para modificar el hancho con relacion a el slider.
 						{
-						$("#slider .element").css({"width": constante.toString()+"%"});
+						aux= ((0.80/ID_proceso)*100);
+						if((ID_proceso%22)== 0)// agregar un nuevo nivel para nuevos chprogramas 
+						{
+							var niveles= (1+(ID_proceso/22))*35;
+							$("#general").css({"height": niveles.toString()+"px"});
+							bandera = 1;
+							$("#slider .element").css({"width": constante.toString()+"%"});
+								
 						}
-							
-					}				
-				};
+						else if(bandera == 0)//modificacion de hancho
+						{
+							$("#slider .element").css({"width": aux.toString()+"%"});
+						}
+							else
+							{
+							$("#slider .element").css({"width": constante.toString()+"%"});
+							}
+								
+						}				
+					};
                 $("#insertar").click
 				(
 					function()
@@ -278,6 +277,15 @@
 						if (chmaquina.insertarPrograma(content,ID_proceso))
 						{
 							
+							if(chmaquina.setEjecucion() == 5 || chmaquina.setEjecucion() == 6)
+							{
+								valor = 101;
+								while (valor >100)
+								{
+									valor = prompt("Digite la prioridad: ");
+								}
+								chmaquina.getPrioridad(valor);
+							}	
 							$("#chcodigo").remove();
 							$(".contenedor").remove();
 							grafico_programa(ID_proceso);
@@ -288,7 +296,6 @@
 							insertar_grafico();
 						}
 						++ID_proceso;
-				
 					}
 				);	
 				$("#button #add").click
@@ -331,7 +338,11 @@
 						}
 					}
 				);
-				$("#alertFile #file").change(function() {manejarArchivos(this.files);});
+				$("#alertFile #file").change(
+					function() 
+					{manejarArchivos(this.files);
+					}
+				);
 				$("#ejecutar .barraEstado .x").click(
 					function()
 					{
@@ -392,22 +403,24 @@
 							$("#programa").hide();
 					}
 				);
-				$("#general #slider").on("click", ".element", function() 
-				{
-							$("#chcodigo").remove();
-							$(".contenedor").remove();
-							if(this.innerHTML == "Salidas")
-							{
-								$("#salidas").show();
-								$("#chcodigo").hide();
-								$("#etivari").hide();
-							}
-							else
-							{
-								grafico_programa(this.innerHTML);
-							}
-							$("#programa").show();
-				});
+				$("#general #slider").on("click", ".element", 
+					function() 
+					{
+								$("#chcodigo").remove();
+								$(".contenedor").remove();
+								if(this.innerHTML == "Salidas")
+								{
+									$("#salidas").show();
+									$("#chcodigo").hide();
+									$("#etivari").hide();
+								}
+								else
+								{
+									grafico_programa(this.innerHTML);
+								}
+								$("#programa").show();
+					}
+				);
 				$("#normal").click(
 					function()
 					{
@@ -415,7 +428,7 @@
 						chmaquina.reset_pantalla();
 						restrictor=1;
 						/*restrictor=chmaquina.ejecutar_programas_normal();*/
-						restrictor=chmaquina.ejecutarRR();
+						restrictor=chmaquina.ejecutar();
 						cambiar_modo();
 						if($("#ejecutar").css("display")=="none")
 						{
@@ -484,6 +497,7 @@
 						$("#menu .caja").slideUp("loquese.php");
 					}
 				);
+				//RR
 				$("#opcion_boton .opcion_ejecucion:nth-child(1)").click(
 					function()
 					{
@@ -492,6 +506,7 @@
 						$("#seleccion_ejecucion").hide();
 					}
 				);
+				//SJF
 				$("#opcion_boton .opcion_ejecucion:nth-child(2)").click(
 					function()
 					{
@@ -500,6 +515,7 @@
 						$("#seleccion_ejecucion").hide();
 					}
 				);
+				//SJF EXP
 				$("#opcion_boton .opcion_ejecucion:nth-child(3)").click(
 					function()
 					{
@@ -508,6 +524,7 @@
 						$("#seleccion_ejecucion").hide();
 					}
 				);
+				//FCFS
 				$("#opcion_boton .opcion_ejecucion:nth-child(4)").click(
 					function()
 					{
@@ -516,6 +533,7 @@
 						$("#seleccion_ejecucion").hide();
 					}
 				);
+				//Prioridad
 				$("#opcion_boton .opcion_ejecucion:nth-child(5)").click(
 					function()
 					{
@@ -524,6 +542,7 @@
 						$("#seleccion_ejecucion").hide();
 					}
 				);
+				//Prioridad EXP
 				$("#opcion_boton .opcion_ejecucion:nth-child(6)").click(
 					function()
 					{

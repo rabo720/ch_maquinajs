@@ -7,13 +7,11 @@ var Trato_Lineas = function()
 	vec_variable=[];
 	vec_etiquetas=[];
 
-	this.set_etiquetas=
-			function()
-			{
-				return this.vec1;
-			};
-	this.casteo_variable =
-		function(variable, tipo)
+	this.set_etiquetas=function()
+		{
+			return this.vec1;
+		};
+	this.casteo_variable =function(variable, tipo)
 		{
 			if (tipo == "I")
 			{
@@ -31,21 +29,18 @@ var Trato_Lineas = function()
 				return variable
 			}
 		};		
-	this.agregar_variable=
-		function(linea)
+	this.agregar_variable=function(linea)
 		{
 			x=[linea[1],linea[3]];
 			vec_variable.push(x);
 		};
-	this.agregar_etiqueta=
-		function(linea,tam_mem)
+	this.agregar_etiqueta=function(linea,tam_mem)
 		{
 			var y = parseInt(linea[2])+(tam_mem-1);
 			x=[linea[1],y];
 			vec_etiquetas.push(x);
 		};	
-	this.buscar_variables =
-		function(vec,variable)
+	this.buscar_variables =function(vec,variable)
 		{
 			var x=0;
 			while (x < vec.length)
@@ -57,8 +52,7 @@ var Trato_Lineas = function()
 			}
 			return false;
 		};
-	this.buscar_lista=
-		function(variable, lista)
+	this.buscar_lista=function(variable, lista)
 		{
 			var x=0;
 			
@@ -73,8 +67,7 @@ var Trato_Lineas = function()
 			}
 			return false;
 		};	
-	this.resivir_linea=
-		function(lineas,tam_mem)
+	this.resivir_linea=function(lineas,tam_mem)
 		{
 			var oblineas = new Trato_Lineas;
 			
@@ -286,8 +279,7 @@ var Depurador = function()
 {
 	this.vec_variables=[];
 	this.vec_etiquetas=[];
-	this.depurar_linea = 
-		function(lineas,tam_mem)
+	this.depurar_linea = function(lineas,tam_mem)
 		{
 			var revisar = new Trato_Lineas();
 			var rafaga = 0;
@@ -304,8 +296,7 @@ var Memoria=function()
 	this.memoria.push(0);
 	this.tam_memoria = 200;
 
-	this.iniciar_memoria = 
-		function(tam)
+	this.iniciar_memoria = function(tam)
 		{
 			var x = 0;
 			for(x;x<tam;x++)
@@ -313,28 +304,23 @@ var Memoria=function()
 				this.memoria.push("Sistema_Operativo");
 			}
 		};	
-	this.set_tam_mem =
-		function()
+	this.set_tam_mem =function()
 		{
 			return this.tam_memoria;
 		};
-	this.set_mem_ocupado =
-		function()
+	this.set_mem_ocupado =function()
 		{
 			return this.memoria.length;
 		};	
-	this.set_acumulador = 
-		function()
+	this.set_acumulador = function()
 		{
 			return this.memoria[0];
 		};	
-	this.return_memoria =
-		function(dir)
+	this.return_memoria =function(dir)
 		{
 			return this.memoria[dir];
 		};	
-	this.insertarCHPrograma= 
-		function(lineas,vec_variables)
+	this.insertarCHPrograma= function(lineas,vec_variables)
 		{
 			
 			var posIni = this.memoria.length;
@@ -355,13 +341,11 @@ var Memoria=function()
 			var posFinPro = this.memoria.length-1;
 			return [posIni, posFin, posFinPro,vec_variables];
 		};	
-	this.set_variable =
-		function(valor)
+	this.set_variable =function(valor)
 		{
 			return this.memoria[valor];
 		};
-	this.cambiar_memoria = 
-		function()
+	this.cambiar_memoria = function()
 		{
 			bandera = true;
 			while(bandera)
@@ -378,38 +362,31 @@ var Memoria=function()
 				}
 			}
 		};	
-	this.set_memoria =
-		function()
+	this.set_memoria =function()
 		{
 			return this.memoria;
 		};		
-	this.intercambio = 
-		function(dir_pri, dir_seg)
+	this.intercambio = function(dir_pri, dir_seg)
 		{
 			this.memoria[dir_pri]=this.memoria[dir_seg];
 		};	
-	this.refrescar = 
-		function(contenido,dir)
+	this.refrescar = function(contenido,dir)
 		{
 			this.memoria[dir] = contenido;
 		};	
-	this.insertar =
-		function(dir,valor)
+	this.insertar =function(dir,valor)
 		{
 			this.memoria[dir]=valor;
 		};	
-	this.suma =
-		function(dir)
+	this.suma =function(dir)
 		{
 			this.memoria[0]+=this.memoria[dir];
 		};		
-	this.resta =
-		function(dir)
+	this.resta =function(dir)
 		{
 			this.memoria[0]-=this.memoria[dir];
 		};
-	this.divicion =
-		function(dir)
+	this.divicion =function(dir)
 		{
 			if(this.memoria[dir]!=0)
 			{
@@ -423,23 +400,19 @@ var Memoria=function()
 			}	
 			
 		};
-	this.multiplicacion =
-		function(dir)
+	this.multiplicacion =function(dir)
 		{
 			this.memoria[0]=this.memoria[0]*this.memoria[dir];
 		};
-	this.potenciacion =
-		function(dir)
+	this.potenciacion =function(dir)
 		{
 			this.memoria[0]=Math.pow(memoria[0],memoria[dir])
 		};
-	this.modulacion =
-		function(dir)
+	this.modulacion =function(dir)
 		{
 			this.memoria[0]=this.memoria[0]%this.memoria[dir]
 		};
-	this.elimine =
-		function (variable)
+	this.elimine =function (variable)
 		{
 			var aux = this.memoria[0];
 			var x=0;
@@ -451,8 +424,7 @@ var Memoria=function()
 			}
 			this.memoria=aux2;
 		};	
-	this.extraiga =
-		function(numero)
+	this.extraiga =function(numero)
 		{
 			var aux;
 			var x = numero;
@@ -478,6 +450,8 @@ var CHMaquina = function()
    		this.directorio[5]: tiempo de llegada.
    		this.directorio[6]: bandera terminado y no.
    		this.directorio[7]: acumulador.
+   		this.directorio[8]: prioridad un numero de 1 a 100;
+   		this.directorio[8]: Id_proceso;
    */
     this.directorio=[];
     this.pantallach =[];
@@ -492,24 +466,28 @@ var CHMaquina = function()
 	var depurador = new Depurador();
     var memoriaCH = new Memoria(); 
 
-	this.getEjecucion = 
-		function(tipo)
+	this.getPrioridad = function(prioridad)
+		{
+			this.directorio[this.directorio.length-1][8]=prioridad;
+		}
+	this.setEjecucion = function()
+		{
+				return this.tipo_ejecucion;
+		}
+	this.getEjecucion = function(tipo)
 		{
 			this.tipo_ejecucion = tipo;
 		}
-    this.iniciar_chmaquina = 
-		function()
+    this.iniciar_chmaquina = function()
 		{
 			var tam_Os = (10*4)+9;
 			memoriaCH.iniciar_memoria(tam_Os);
 		};
-    this.configuracion =
-		function()
+    this.configuracion =function()
 		{
 			memoriaCH.cambiar_memoria();
 		};
-	this.buscar_variable =
-		function(variable , ID_proceso)
+	this.buscar_variable =function(variable , ID_proceso)
 		{
 			var x = 0; 
 			for(x;x< this.variables.length;x++)
@@ -524,8 +502,7 @@ var CHMaquina = function()
 				}
 			}
 		};
-	this.buscar_etiqueta =
-		function(variable,ID_proceso)
+	this.buscar_etiqueta =function(variable,ID_proceso)
 		{
 			var x = 0; 
 			for(x;x< this.etiquetas.length;x++)
@@ -540,23 +517,19 @@ var CHMaquina = function()
 				}
 			}
 		};
-    this.setMemoria = 
-		function()
+    this.setMemoria = function()
 		{
 			return memoriaCH.memoria;
 		};   
-    this.setDirectorio = 
-		function(ID_pro)
+    this.setDirectorio = function(ID_pro)
 		{
 			return [this.directorio[ID_pro][0],this.directorio[ID_pro][1]];
 		};
-	this.setToltalDirectorio = 
-		function()
+	this.setToltalDirectorio = function()
 		{
 			return this.directorio;
 		}
-    this.insertar_etiqueta=
-		function(vec,ID_proceso)
+    this.insertar_etiqueta=function(vec,ID_proceso)
 		{
 			var x = 0;
 			for(x; x < vec.length; x++)
@@ -564,8 +537,7 @@ var CHMaquina = function()
 				this.etiquetas.push([ID_proceso,vec[x][0],vec[x][1]]);
 			}
 		};
-	this.insertar_variables=
-		function(vec,ID_proceso)
+	this.insertar_variables=function(vec,ID_proceso)
 		{
 			var x = 0;
 			for(x; x < vec.length; x++)
@@ -573,37 +545,35 @@ var CHMaquina = function()
 				this.variables.push([ID_proceso,vec[x][0],vec[x][1]]);
 			}
 		};
-	this.trato_lineas = 
-			function(lineas)
+	this.trato_lineas = function(lineas)
+		{
+			var vec1 = [];
+			var x = 0;
+			var bandera = 0;
+			for(x; x < lineas.length;x++)
 			{
-				var vec1 = [];
-				var x = 0;
-				var bandera = 0;
-				for(x; x < lineas.length;x++)
+				var linea = lineas[x].split(" ");
+				var y = 0;
+				var vec2 = [];
+				for(y;y<linea.length;y++)
 				{
-					var linea = lineas[x].split(" ");
-					var y = 0;
-					var vec2 = [];
-					for(y;y<linea.length;y++)
+					if(linea[y].trim()!="")
 					{
-						if(linea[y].trim()!="")
-						{
-							
-							vec2.push(linea[y]);
-							bandera = 1;
-						}
+						
+						vec2.push(linea[y]);
+						bandera = 1;
 					}
-					if (bandera == 1)
-					{
-						vec2 = vec2.join(" ");
-						vec1.push(vec2);
-					}
-					bandera = 0;
 				}
-				return vec1;
-			};
-    this.insertarPrograma  = 
-		function(programa,ID_proceso) 
+				if (bandera == 1)
+				{
+					vec2 = vec2.join(" ");
+					vec1.push(vec2);
+				}
+				bandera = 0;
+			}
+			return vec1;
+		};
+    this.insertarPrograma  = function(programa,ID_proceso) 
 		{		
 			var lineas = programa.split("\n");
 			var acumulador = 0;
@@ -618,34 +588,30 @@ var CHMaquina = function()
 					this.insertar_etiqueta(rev_cod[2],ID_proceso);
 					direc=memoriaCH.insertarCHPrograma(lineas,rev_cod[1]);
 					this.insertar_variables(direc[3],ID_proceso);
-					this.directorio.push([direc[0],direc[1],direc[2],direc[0],rev_cod[3],this.tiempo_llegada,this.bandera,acumulador]);
+					this.directorio.push([direc[0],direc[1],direc[2],direc[0],rev_cod[3],this.tiempo_llegada,this.bandera,acumulador,0,ID_proceso]);
 					return true;
 				}
 			}
 			return false;	
 		};	
-	this.cargue = 
-		function(variable,ID_proceso)
+	this.cargue = function(variable,ID_proceso)
 		{
 			var direccion = this.buscar_variable(variable, ID_proceso);
 			memoriaCH.intercambio(0,direccion);			
 		};
-	this.nueva =
-		function(variable,contenido,ID_proceso)
+	this.nueva =function(variable,contenido,ID_proceso)
 		{
 			var direccion = this.buscar_variable(variable,ID_proceso);
 			memoriaCH.refrescar(contenido,direccion);
 		};
-	this.almacene = 
-		function(variable, ID_proceso)
+	this.almacene = function(variable, ID_proceso)
 		{
 			
 			var direccion = this.buscar_variable(variable,ID_proceso);
 			memoriaCH.intercambio(direccion,0);
 			
 		};
-	this.lea = 
-		function(variable,ID_proceso)
+	this.lea = function(variable,ID_proceso)
 		{
 			
 			var direccion = this.buscar_variable(variable, ID_proceso);
@@ -662,61 +628,51 @@ var CHMaquina = function()
 			memoriaCH.refrescar(final,direccion);
 			
 		};
-	this.sume = 
-		function(variable,ID_proceso)
+	this.sume = function(variable,ID_proceso)
 		{
 			var direccion = this.buscar_variable(variable,ID_proceso);
 			memoriaCH.suma(direccion);
 			
 		};	
-	this.reste = 
-		function(variable,ID_proceso)
+	this.reste = function(variable,ID_proceso)
 		{
 			var direccion = this.buscar_variable(variable,ID_proceso);
 			memoriaCH.resta(direccion);
 			
 		};
-	this.multiplique = 
-		function(variable,ID_proceso)
+	this.multiplique = function(variable,ID_proceso)
 		{
 			var direccion = this.buscar_variable(variable,ID_proceso);
 			memoriaCH.multiplicacion(direccion);
 		};
-	this.divida = 
-		function(variable,ID_proceso)
+	this.divida = function(variable,ID_proceso)
 		{
 			var direccion = this.buscar_variable(variable,ID_proceso);
 			return memoriaCH.divicion(direccion);
 		};
-	this.potencia = 
-		function(variable,ID_proceso)
+	this.potencia = function(variable,ID_proceso)
 		{
 			var direccion = this.buscar_variable(variable,ID_proceso);
 			memoriaCH.potenciacion(direccion);
 		};
-	this.modulo = 
-		function(variable,ID_proceso)
+	this.modulo = function(variable,ID_proceso)
 		{
 			var direccion = this.buscar_variable(variable,ID_proceso);
 			memoriaCH.modulacion(direccion);
 		};
-	this.concatene = 
-		function(variable,ID_proceso)
+	this.concatene = function(variable,ID_proceso)
 		{
 			this.sume(variable,ID_proceso);
 		};
-	this.elimine = 
-		function(variable, ID_proceso)
+	this.elimine = function(variable, ID_proceso)
 		{
 			memoriaCH.elimine(variable);
 		};
-	this.extraiga = 
-		function(variable,ID_proceso)
+	this.extraiga = function(variable,ID_proceso)
 		{
 			memoriaCH.extraiga(variable);
 		};		
-	this.muestre = 
-		function(variable,ID_proceso)
+	this.muestre = function(variable,ID_proceso)
 		{
 			$("#pantalla .platilla_terminal").remove();
 			if(variable.trim() == "acumulador")
@@ -738,8 +694,7 @@ var CHMaquina = function()
 			var new_element = $("<textarea class='platilla_terminal'>"+text_pantalla+"</textarea>");
 			new_element.insertAfter($("#pantalla .text"));
 		};
-	this.imprima = 
-		function()
+	this.imprima = function()
 		{
 			$("#pantalla .platilla_terminal").remove();
 			if(variable.trim() == "acumulador")
@@ -762,27 +717,22 @@ var CHMaquina = function()
 			new_element.insertAfter($("#pantalla .text"));
 			//por hacer con jquery
 		};
-	this.retorne = 
-		function(x)
+	this.retorne = function(x)
 		{
-			alert("aqui");
 			this.directorio[x][6] = 1;
 		};
-	this.vaya = 
-		function(variable,ID_proceso)
+	this.vaya = function(variable,ID_proceso)
 		{
 			return this.buscar_etiqueta(variable,ID_proceso);
 		};
-	this.vayasi = 
-		function(variable1, variable2, acum, ID_proceso)
+	this.vayasi = function(variable1, variable2, acum, ID_proceso)
 		{
 			if (acum > 0)
 				return this.buscar_etiqueta(variable1,ID_proceso);
 			else if (acum < 0)
 				return this.buscar_etiqueta(variable2,ID_proceso);
 		};
-	this.terminal =
-		function(ID_proceso)
+	this.terminal =function(ID_proceso)
 		{
 			$("#terminal .platilla_terminal").remove();
 			var aux = "ch-programa"+ID_proceso+"\> Ejecutando....";
@@ -796,8 +746,7 @@ var CHMaquina = function()
 			var new_element = $("<textarea class='platilla_terminal'>"+text_pantalla+"</textarea>");
 			new_element.insertAfter($("#terminal .text"));
 		};
-	this.terminal_paso =
-		function(ID_proceso,contenido, acumulador, PC)
+	this.terminal_paso =function(ID_proceso,contenido, acumulador, PC)
 		{
 			$("#terminal .platilla_terminal").remove();
 			var aux = "ch-programa"+ID_proceso+"\> linea ejecutada: "+ contenido + "\n ch-programa\>  acumulador :" + acumulador+ "\n ch-programa\> PC : "+PC ;
@@ -811,24 +760,21 @@ var CHMaquina = function()
 			var new_element = $("<textarea class='platilla_terminal'>"+text_pantalla+"</textarea>");
 			new_element.insertAfter($("#terminal .text"));
 		};
-	this.reset_terminal = 
-		function()
+	this.reset_terminal = function()
 		{
 			$("#terminal .platilla_terminal").remove();
 			this.procesoch = [""];
 			var new_element = $("<textarea class='platilla_terminal'>"+this.procesoch+"</textarea>");
 			new_element.insertAfter($("#terminal .text"));
 		};
-	this.reset_pantalla =
-		function()
+	this.reset_pantalla =function()
 		{
 			$("#pantalla .platilla_terminal").remove();
 			this.pantallach = [""];
 			var new_element = $("<textarea class='platilla_terminal'>"+this.pantallach+"</textarea>");
 			new_element.insertAfter($("#pantalla .text"));
 		};
-	this.ejecutar_linea =
-		function(y,x)
+	this.ejecutar_linea =function(y,x)
 		{
 			contenido = memoriaCH.return_memoria(y);
 			contenido = contenido.split(" ");
@@ -892,7 +838,6 @@ var CHMaquina = function()
 				break;
 				case "retorne":
 					this.retorne(x);
-					alert(this.directorio[x][6]);
 					return this.directorio[x][1];
 				break;						
 			}
@@ -900,80 +845,129 @@ var CHMaquina = function()
 		};
 	
 //TIPOS DE EJECUCION.
-
-	this.calcularProEmpezados = 
-	function()
-	{
-		var empezados = 0;
-		for (x = 0; x <this.directorio.length; x++)
+	this.ejecutar = function()
 		{
-			if (this.directorio[x][6] == 0)
+			switch(this.tipo_ejecucion)
 			{
-				empezados = empezados+1;
-			}	
+				//RR
+				case 1:
+					this.ejecutarRR();
+				break;
+				//SJF Rafaga 4
+				case 2:
+					this.ordenar(4);
+					this.ejecutar_programas_normal();
+					alert("SJF");
+				break;
+				//SJF Rafaga  EXP 4
+				case 3:
+					alert("estamos trabajando! ¬¬ no moleste");
+				break;
+				//FCFS tiempo 5
+				case 4:
+					alert("FCFS");
+					this.ordenar(5);
+					this.ejecutar_programas_normal();
+				break;
+				//Prioridad 8
+				case 5:
+					alert("Prioridad");
+					this.ordenar(8);
+					this.directorio.reverse();
+					this.ejecutar_programas_normal();
+				break;
+				//Prioridad EXP.8
+				case 6:
+					alert("estamos trabajando! ¬¬ no moleste");
+				break;
+			}
 		}
-		return empezados;
-	}
-	this.ejecutarRR = 
-	function()
-	{
-		var x = this.x_global;
-		var y;
-		var i;
-
-		while (this.calcularProEmpezados()>0)
+	this.calcularProEmpezados = function()
 		{
-			this.terminal(x);
-			y = this.directorio[x][3];
-			i = 0;
-			memoriaCH.insertar(0,this.directorio[x][7]);
-			while(i<=this.cuantum)
+			var empezados = 0;
+			for (x = 0; x <this.directorio.length; x++)
 			{
-				y = this.ejecutar_linea(y,x);
-				i=i+1;
-				y =y+1;	
-				if (y == this.directorio[x][1])
+				if (this.directorio[x][6] == 0)
 				{
-					break;
+					empezados = empezados+1;
+				}	
+			}
+			return empezados;
+		}
+	this.ordenar = function(prioridad)
+		{
+			var menor;
+			for (x = 1; x < this.directorio.length; x++)
+			{
+				for (y = 0; y < this.directorio.length-1; y++)
+				{
+					if (this.directorio[y][prioridad] < this.directorio[y+1][prioridad])
+					{
+						menor = this.directorio[y];
+						this.directorio[y] = this.directorio[y+1];
+						this.directorio[y+1]= menor;
+					}
 				}
 			}
-			this.directorio[x][7] = memoriaCH.set_acumulador();
-			this.directorio[x][3]=y;
-			x = x+1;
-			if (this.directorio.length == x)
-				x = this.x_global;
-			if (this.directorio[x][6]==1)
-			{
-				x = x+1;	
-			}
+
 		}
-		return 0;
+	this.ejecutarRR = function()
+		{
+			var x = this.x_global;
+			var y;
+			var i;
 
-	};
-	this.ejecutarExp = 
-	function()
-	{
+			while (this.calcularProEmpezados()>0)
+			{
+				this.terminal(x);
+				y = this.directorio[x][3];
+				i = 0;
+				memoriaCH.insertar(0,this.directorio[x][7]);
+				while(i<=this.cuantum)
+				{
+					y = this.ejecutar_linea(y,x);
+					i=i+1;
+					y =y+1;	
+					if (y == this.directorio[x][1])
+					{
+						this.directorio[x][6] = 1;
+						break;
+					}
+				}
+				this.directorio[x][7] = memoriaCH.set_acumulador();
+				this.directorio[x][3]=y;
+				x = x+1;
+				if (this.directorio.length == x)
+					x = this.x_global;
+				if (this.directorio[x][6]==1)
+				{
+					x = x+1;	
+				}
+			}
+			return 0;
+		};
+	this.ejecutarExp = function()
+		{
+		};
+	this.ejecutarNoExp = function ()
+		{
 
-	};
-	this.ejecutarNoExp = 
-	function ()
-	{
-
-	};
-
-	this.ejecutar_programas_normal=
-		function()
+		};
+	this.ejecutar_programas_normal=function()
 		{
 			var x = this.x_global;
 			var y = this.y_global;
 			var contenido;
+			alert(this.directorio[0]);
+			alert(this.directorio[1]);
+
 			for(x;x<this.directorio.length;x++)
 			{
 				y = this.directorio[x][0];
 				this.terminal(x);
 				for(y;y < this.directorio[x][1];y++)
 				{
-					y=this.ejecutar_linea(y,x);
+					y=this.ejecutar_linea(y,this.directorio[x][9]);
 				}
 				this.pantallach.push("\\\\\\\\\\\\\\\\Separador de Programas\\\\\\\\\\\\\\\\");
 			}
@@ -981,11 +975,9 @@ var CHMaquina = function()
 			this.y_global = 50;
 			return 0;
 		};
-	this.ejecutar_programas_paso_paso =
-		function()
+	this.ejecutar_programas_paso_paso =function()
 		{
-			/*alert(this.directorio.length);
-			alert(this.x_global);*/
+			
 			if(this.x_global<this.directorio.length)
 			{
 				if(this.y_global<this.directorio[this.x_global][1])
